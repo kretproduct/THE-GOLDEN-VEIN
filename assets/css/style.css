@@ -158,6 +158,7 @@ section { padding: clamp(64px, 10vw, 130px) 0; position: relative; }
 .card .num { font-family: var(--serif); font-size: 54px; line-height: 1; font-style: italic; }
 .card h3 { font-family: var(--serif); font-weight: 600; font-size: clamp(24px, 2.4vw, 30px); line-height: 1.15; margin: 18px 0 12px; }
 .card p { color: var(--muted); font-size: 16px; }
+.card p + p { margin-top: 12px; }
 
 .blocks { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
 .blocks .card { grid-column: span 6; }

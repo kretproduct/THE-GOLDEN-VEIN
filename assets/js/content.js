@@ -8,14 +8,14 @@ window.TGV = {
   contact: { label: "Связаться", url: "#" },
 
   // Пруфы. Пример: { src: "assets/img/proofs/1.jpg", title: "Заголовок", note: "Короткая подпись" }
-  // Пока src пустой — на сайте показывается аккуратная заглушка.
+  // Если src пустой — на сайте показывается аккуратная заглушка.
   proofs: [
-    { src: "", title: "", note: "" },
-    { src: "", title: "", note: "" },
-    { src: "", title: "", note: "" },
-    { src: "", title: "", note: "" },
-    { src: "", title: "", note: "" },
-    { src: "", title: "", note: "" }
+    { src: "assets/img/proofs/1.jpg", title: "", note: "" },
+    { src: "assets/img/proofs/2.jpg", title: "", note: "" },
+    { src: "assets/img/proofs/3.jpg", title: "", note: "" },
+    { src: "assets/img/proofs/4.jpg", title: "", note: "" },
+    { src: "assets/img/proofs/5.jpg", title: "", note: "" },
+    { src: "assets/img/proofs/6.jpg", title: "", note: "" }
   ],
 
   // Кейсы учеников.

@@ -241,6 +241,7 @@ section[id] { scroll-margin-top: 70px; }
 .anchors a { padding: 10px 18px; font-size: 12px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--gold-hi); background: rgba(233, 185, 73, .08); box-shadow: inset 0 0 0 1px var(--line); transition: background .25s; }
 .anchors a:hover { background: rgba(233, 185, 73, .2); }
 .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+@media (min-width: 981px) { .grid3 .span2 { grid-column: span 2; } .grid3 .span3 { grid-column: 1 / -1; } }
 .split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 20px 60px; align-items: start; }
 .split .head { margin-bottom: 0; position: sticky; top: 110px; }
 .rules { list-style: none; margin: 0; padding: 0; counter-reset: r; }

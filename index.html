@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Golden Vein</title>
+<meta name="description" content="The Golden Vein — мы знаем, где проходит золотая жила. Пруфы и кейсы учеников.">
+<meta name="theme-color" content="#0a0805">
+<meta property="og:title" content="The Golden Vein">
+<meta property="og:description" content="The Golden Vein — мы знаем, где проходит золотая жила. Пруфы и кейсы учеников.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/img/bg.jpg">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" as="image" href="assets/img/bg.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+<div class="backdrop" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<canvas id="dust" aria-hidden="true"></canvas>
+<div class="torch" aria-hidden="true"></div>
+<svg class="scroll-vein" viewBox="0 0 26 1000" preserveAspectRatio="none" aria-hidden="true">
+  <path class="track" pathLength="1" d="M13 0 9 70 17 130 11 210 19 290 8 370 15 450 7 520 18 610 12 690 20 770 10 850 16 930 13 1000"/>
+  <path class="fill" pathLength="1" d="M13 0 9 70 17 130 11 210 19 290 8 370 15 450 7 520 18 610 12 690 20 770 10 850 16 930 13 1000"/>
+</svg>
+<div class="veil" aria-hidden="true"><i></i></div>
+
+<header class="header">
+  <div class="wrap">
+    <a class="logo" href="index.html" aria-label="The Golden Vein — на главную"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe9a3"/><stop offset=".55" stop-color="#e9b949"/><stop offset="1" stop-color="#a87412"/></linearGradient></defs><path d="M16 1 31 16 16 31 1 16Z" stroke="url(#lg)" stroke-width="1"/><path d="M19 2.5 15.5 10l3 4.5-4.5 5 2.5 4.5L14 29.5M15.5 10 8 12.5M18.5 14.5l7 2.5M14 19.5l-6 3" stroke="url(#lg)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>The Golden <span class="gold">Vein</span></span></a>
+    <button class="burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
+    <nav class="nav" id="nav" aria-label="Основная навигация">
+      <a href="index.html" aria-current="page">Главная</a>
+      <a href="proofs.html">Пруфы</a>
+      <a href="cases.html">Кейсы</a>
+      <a class="btn sm" href="#" data-contact>Связаться</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <svg class="hero-veins" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs><linearGradient id="vg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0b8"/><stop offset=".5" stop-color="#e9b949"/><stop offset="1" stop-color="#9a6a10"/></linearGradient></defs>
+    <path class="glow" pathLength="1" stroke-width="14" d="M985 0 960 60 995 150 970 235 940 300 915 390 880 470 895 560 850 700"/>
+    <path pathLength="1" stroke-width="3.5" d="M985 0 960 60 995 150 970 235 940 300 915 390 880 470 895 560 850 700"/>
+    <path class="b1" pathLength="1" stroke-width="2" d="M895 560 800 592 650 578 560 600 470 622 380 610 280 650 170 635 80 670 0 655"/>
+    <path class="b2" pathLength="1" stroke-width="2" d="M970 235 1030 262 1090 240 1150 285 1200 262"/>
+    <path class="b3" pathLength="1" stroke-width="1.2" d="M880 470 950 520 1020 505 1090 560 1200 540"/>
+  </svg>
+  <div class="wrap">
+    <span class="eyebrow">Мы знаем, где проходит жила</span>
+    <h1><span class="l1">The Golden</span><span class="l2 gold">Vein</span></h1>
+    <p class="lead">Золото не лежит на поверхности. Мы показываем, где копать, — и доказываем это результатами наших учеников.</p>
+    <div class="cta">
+      <a class="btn" href="proofs.html">Смотреть пруфы <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12h16M14 6l6 6-6 6"/></svg></a>
+      <a class="btn ghost" href="cases.html">Кейсы учеников</a>
+    </div>
+  </div>
+  <span class="scroll-hint" aria-hidden="true">Вглубь</span>
+</section>
+
+<div class="ticker" aria-hidden="true"><div><span>The Golden Vein</span><span>Знание</span><span>Практика</span><span>Результат</span><span>Пруфы</span><span>Кейсы учеников</span><span>The Golden Vein</span><span>Знание</span><span>Практика</span><span>Результат</span><span>Пруфы</span><span>Кейсы учеников</span><span>The Golden Vein</span><span>Знание</span><span>Практика</span><span>Результат</span><span>Пруфы</span><span>Кейсы учеников</span><span>The Golden Vein</span><span>Знание</span><span>Практика</span><span>Результат</span><span>Пруфы</span><span>Кейсы учеников</span></div></div>
+
+<section id="about">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow reveal">О нас</span>
+      <h2 class="h2 reveal">Профессионалы видят <span class="gold">золото в камне</span></h2>
+      <p class="lead reveal">Здесь будет ваш вступительный текст.</p>
+    </div>
+    <div class="blocks">
+      <article class="card wide reveal" style="--d:0.0s"><div class="in">
+        <div class="num gold">01</div>
+        <h3>Заголовок первого блока</h3>
+        <p>Здесь будет ваш текст. Пришлите креатив — я расставлю его по блокам без изменений смысла.</p>
+      </div></article>
+      <article class="card narrow reveal" style="--d:0.1s"><div class="in">
+        <div class="num gold">02</div>
+        <h3>Заголовок второго блока</h3>
+        <p>Здесь будет ваш текст. Короткий блок хорошо подходит для одной сильной мысли.</p>
+      </div></article>
+      <article class="card narrow reveal" style="--d:0.0s"><div class="in">
+        <div class="num gold">03</div>
+        <h3>Заголовок третьего блока</h3>
+        <p>Здесь будет ваш текст. Блоков может быть столько, сколько потребуется.</p>
+      </div></article>
+      <article class="card wide reveal" style="--d:0.1s"><div class="in">
+        <div class="num gold">04</div>
+        <h3>Заголовок четвёртого блока</h3>
+        <p>Здесь будет ваш текст. Широкий блок вмещает более развёрнутое объяснение.</p>
+      </div></article>
+    </div>
+  </div>
+</section>
+
+<section id="path">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow reveal">Как это работает</span>
+      <h2 class="h2 reveal">Путь <span class="gold">по жиле</span></h2>
+    </div>
+    <div class="path">
+      <div class="path-line" aria-hidden="true"><i></i></div>
+      <article class="step card"><div class="in">
+        <span class="tag">Этап I</span>
+        <h3>Разведка</h3>
+        <p>Здесь будет ваш текст о первом этапе.</p>
+      </div></article>
+      <article class="step card"><div class="in">
+        <span class="tag">Этап II</span>
+        <h3>Порода</h3>
+        <p>Здесь будет ваш текст о втором этапе.</p>
+      </div></article>
+      <article class="step card"><div class="in">
+        <span class="tag">Этап III</span>
+        <h3>Жила</h3>
+        <p>Здесь будет ваш текст о третьем этапе.</p>
+      </div></article>
+      <article class="step card"><div class="in">
+        <span class="tag">Этап IV</span>
+        <h3>Слиток</h3>
+        <p>Здесь будет ваш текст о четвёртом этапе.</p>
+      </div></article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow reveal">Не верьте на слово</span>
+      <h2 class="h2 reveal">Всё, что мы говорим, <span class="gold">можно проверить</span></h2>
+    </div>
+    <div class="portals">
+      <a class="portal card reveal" href="proofs.html"><div class="in">
+        <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
+        <div class="big gold">Пруфы</div>
+        <p>Скриншоты и подтверждения — без слов, только факты.</p>
+      </div></a>
+      <a class="portal card reveal" href="cases.html" style="--d:.1s"><div class="in">
+        <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
+        <div class="big gold">Кейсы</div>
+        <p>Истории учеников: с чего начинали и к чему пришли.</p>
+      </div></a>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <span class="eyebrow reveal">Следующий шаг</span>
+    <h2 class="h2 reveal">Жила уже здесь. <span class="gold">Осталось копнуть.</span></h2>
+    <div class="cta reveal"><a class="btn" href="#" data-contact>Связаться с нами <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12h16M14 6l6 6-6 6"/></svg></a></div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>© <span data-year>2026</span> The Golden Vein</span>
+    <nav aria-label="Навигация в подвале">
+      <a href="index.html">Главная</a>
+      <a href="proofs.html">Пруфы</a>
+      <a href="cases.html">Кейсы</a>
+      <a href="#" data-contact>Связаться</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="assets/js/content.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

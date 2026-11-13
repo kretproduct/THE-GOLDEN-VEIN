@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Пруфы — The Golden Vein</title>
+<meta name="description" content="Пруфы The Golden Vein: подтверждения результатов.">
+<meta name="theme-color" content="#0a0805">
+<meta property="og:title" content="Пруфы — The Golden Vein">
+<meta property="og:description" content="Пруфы The Golden Vein: подтверждения результатов.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/img/bg.jpg">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" as="image" href="assets/img/bg.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+<div class="backdrop" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<canvas id="dust" aria-hidden="true"></canvas>
+<div class="torch" aria-hidden="true"></div>
+<svg class="scroll-vein" viewBox="0 0 26 1000" preserveAspectRatio="none" aria-hidden="true">
+  <path class="track" pathLength="1" d="M13 0 9 70 17 130 11 210 19 290 8 370 15 450 7 520 18 610 12 690 20 770 10 850 16 930 13 1000"/>
+  <path class="fill" pathLength="1" d="M13 0 9 70 17 130 11 210 19 290 8 370 15 450 7 520 18 610 12 690 20 770 10 850 16 930 13 1000"/>
+</svg>
+<div class="veil" aria-hidden="true"><i></i></div>
+
+<header class="header">
+  <div class="wrap">
+    <a class="logo" href="index.html" aria-label="The Golden Vein — на главную"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe9a3"/><stop offset=".55" stop-color="#e9b949"/><stop offset="1" stop-color="#a87412"/></linearGradient></defs><path d="M16 1 31 16 16 31 1 16Z" stroke="url(#lg)" stroke-width="1"/><path d="M19 2.5 15.5 10l3 4.5-4.5 5 2.5 4.5L14 29.5M15.5 10 8 12.5M18.5 14.5l7 2.5M14 19.5l-6 3" stroke="url(#lg)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>The Golden <span class="gold">Vein</span></span></a>
+    <button class="burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
+    <nav class="nav" id="nav" aria-label="Основная навигация">
+      <a href="index.html">Главная</a>
+      <a href="proofs.html" aria-current="page">Пруфы</a>
+      <a href="cases.html">Кейсы</a>
+      <a class="btn sm" href="#" data-contact>Связаться</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow">Доказательства</span>
+    <h1>Пруфы. <span class="gold">Только факты.</span></h1>
+    <p class="lead">Нажмите на любое изображение, чтобы открыть его в полном размере.</p>
+  </div>
+</section>
+<section style="padding-top:0">
+  <div class="wrap"><div class="proofs" id="proofs"></div></div>
+</section>
+<section class="final">
+  <div class="wrap">
+    <span class="eyebrow reveal">Следующий шаг</span>
+    <h2 class="h2 reveal">Жила уже здесь. <span class="gold">Осталось копнуть.</span></h2>
+    <div class="cta reveal"><a class="btn" href="#" data-contact>Связаться с нами <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12h16M14 6l6 6-6 6"/></svg></a></div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>© <span data-year>2026</span> The Golden Vein</span>
+    <nav aria-label="Навигация в подвале">
+      <a href="index.html">Главная</a>
+      <a href="proofs.html">Пруфы</a>
+      <a href="cases.html">Кейсы</a>
+      <a href="#" data-contact>Связаться</a>
+    </nav>
+  </div>
+</footer>
+<dialog id="lightbox" aria-label="Просмотр пруфа">
+  <span class="lb-count"></span>
+  <button class="x" type="button" aria-label="Закрыть">×</button>
+  <button class="lb-nav lb-prev" type="button" aria-label="Предыдущий">‹</button>
+  <figure><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt=""><figcaption></figcaption></figure>
+  <button class="lb-nav lb-next" type="button" aria-label="Следующий">›</button>
+</dialog>
+<script src="assets/js/content.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

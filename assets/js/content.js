@@ -5,7 +5,7 @@
 */
 window.TGV = {
   // Куда ведут кнопки «Связаться» (Telegram, WhatsApp, почта и т.д.)
-  contact: { label: "Связаться", url: "#" },
+  contact: { label: "Связаться", url: "https://t.me/A888MP_97" },
 
   // Пруфы. Пример: { src: "assets/img/proofs/1.jpg", title: "Заголовок", note: "Короткая подпись" }
   // Если src пустой — на сайте показывается аккуратная заглушка.

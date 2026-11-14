@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Золотая жила</title>
+<style>
+  :root { --outfit: #7b3fe4; --gold: #f5c542; --ink: #fff7e6; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: #120d18; color: var(--ink);
+    font: 16px/1.4 "Segoe UI", system-ui, -apple-system, sans-serif;
+    display: flex; justify-content: center;
+  }
+  #app { width: 100%; max-width: 560px; min-height: 100%; display: flex; flex-direction: column; }
+
+  #stats { display: flex; gap: 8px; padding: 10px 12px; align-items: center; }
+  .stat { background: #241a30; border-radius: 12px; padding: 6px 12px; font-weight: 700; white-space: nowrap; }
+  #loveWrap { flex: 1; min-width: 0; }
+  #loveBar { height: 8px; background: #3a2a4a; border-radius: 4px; overflow: hidden; margin-top: 4px; }
+  #loveFill { height: 100%; width: 0; background: linear-gradient(90deg, #ff7aa8, #ff3d6e); transition: width .4s; }
+  #loveLabel { font-size: 12px; font-weight: 600; opacity: .85; }
+
+  #stage {
+    position: relative; height: 46vh; min-height: 300px; overflow: hidden;
+    border-radius: 18px; margin: 0 12px; transition: background 1s;
+    background: radial-gradient(ellipse at 50% 110%, #6b4a1a 0%, #2b1c10 45%, #110b08 100%);
+  }
+  #stage.night  { background: radial-gradient(circle at 75% 20%, #fdf6c9 0 3%, transparent 3.5%), linear-gradient(#070b24, #1b1f4d 70%, #2a2350); }
+  #stage.sunset { background: linear-gradient(#3b1d5c, #d9486e 55%, #ffb35c 80%, #5a2a2a 80.5%); }
+  #stage.snow   { background: linear-gradient(#8fb3d9, #dcecf7 70%, #ffffff 70.5%); }
+  #stage.sea    { background: linear-gradient(#6fd0ff, #c9f1ff 55%, #1c8ac4 55.5%, #0d5c8f); }
+
+  #genie { position: absolute; left: 50%; bottom: 0; height: 78%; transform: translateX(-50%); animation: float 4s ease-in-out infinite; }
+  #genie.spin { animation: spin 1.6s ease-in-out; }
+  @keyframes float { 0%,100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -10px); } }
+  @keyframes spin { 0% { transform: translate(-50%,0) rotateY(0); } 50% { transform: translate(-50%,-24px) rotateY(360deg); } 100% { transform: translate(-50%,0) rotateY(720deg); } }
+  .eye { transform-box: fill-box; transform-origin: center; animation: blink 5s infinite; }
+  @keyframes blink { 0%,96%,100% { transform: scaleY(1); } 98% { transform: scaleY(.1); } }
+  #blush { opacity: 0; transition: opacity .5s; }
+  .blushing #blush { opacity: .7; }
+
+  #bubble {
+    position: absolute; left: 10px; right: 10px; top: 10px;
+    background: rgba(255, 250, 240, .95); color: #2a1a2e; border-radius: 14px;
+    padding: 10px 14px; font-size: 15px; box-shadow: 0 4px 14px rgba(0,0,0,.35); z-index: 3;
+  }
+  #bubble b { color: #b0286a; }
+  #cats { position: absolute; left: 8px; bottom: 4px; font-size: 26px; z-index: 2; }
+
+  .p { position: absolute; pointer-events: none; z-index: 4; font-size: 24px; }
+  .p.fall { top: -30px; animation: fall linear forwards; }
+  .p.boom { animation: boom 1.1s ease-out forwards; }
+  .p.rise { bottom: 20%; animation: rise 1.8s ease-out forwards; }
+  @keyframes fall { to { transform: translateY(60vh) rotate(360deg); opacity: .2; } }
+  @keyframes boom { to { transform: translate(var(--dx), var(--dy)) scale(.3); opacity: 0; } }
+  @keyframes rise { to { transform: translateY(-220px); opacity: 0; } }
+
+  #controls { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+  #vein {
+    position: relative; border: 0; border-radius: 16px; padding: 14px; cursor: pointer;
+    font: 800 18px inherit; color: #3b2600;
+    background: linear-gradient(135deg, #ffe58a, #f5b921 55%, #c98a0a);
+    box-shadow: 0 4px 0 #8a5d00; user-select: none; touch-action: manipulation;
+  }
+  #vein:active { transform: translateY(3px); box-shadow: 0 1px 0 #8a5d00; }
+  #vein small { display: block; font-weight: 600; font-size: 12px; opacity: .75; }
+  .pop { position: absolute; top: 0; font-weight: 800; color: #fff; text-shadow: 0 1px 3px #000; animation: popUp .7s ease-out forwards; pointer-events: none; }
+  @keyframes popUp { to { transform: translateY(-34px); opacity: 0; } }
+
+  #wishForm { display: flex; gap: 8px; }
+  #wishInput { flex: 1; min-width: 0; border: 2px solid #4a3660; background: #1c1426; color: var(--ink); border-radius: 12px; padding: 10px 12px; font: inherit; }
+  #wishInput:focus { outline: none; border-color: var(--gold); }
+  #wishForm button { border: 0; border-radius: 12px; padding: 0 16px; background: var(--outfit); color: #fff; font: 700 15px inherit; cursor: pointer; }
+
+  #wishes { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .wish {
+    border: 0; border-radius: 12px; padding: 9px 10px; text-align: left; cursor: pointer;
+    background: #2a1e38; color: var(--ink); font: 600 14px inherit;
+  }
+  .wish span { display: block; font-size: 12px; font-weight: 500; color: var(--gold); }
+  .wish.poor span { color: #b89a9a; }
+  .wish.locked { opacity: .45; }
+  .wish.locked span { color: #ff8fb1; }
+  .wish:not(.locked):hover { background: #3a2a4e; }
+  #reset { align-self: center; background: none; border: 0; color: #7d6a8c; font: inherit; font-size: 12px; cursor: pointer; text-decoration: underline; }
+
+  #end { position: fixed; inset: 0; background: rgba(10, 5, 15, .92); display: none; align-items: center; justify-content: center; padding: 24px; z-index: 10; text-align: center; }
+  #end.on { display: flex; }
+  #end div { max-width: 420px; }
+  #end h1 { color: var(--gold); margin: 0 0 12px; }
+  #end button { margin-top: 18px; border: 0; border-radius: 12px; padding: 12px 22px; background: var(--gold); color: #3b2600; font: 800 16px inherit; cursor: pointer; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="stats">
+    <div class="stat">💰 <span id="gold">0</span></div>
+    <div class="stat" id="loveWrap">
+      <div id="loveLabel">❤ Симпатия</div>
+      <div id="loveBar"><div id="loveFill"></div></div>
+    </div>
+  </div>
+
+  <div id="stage">
+    <div id="bubble"></div>
+    <svg id="genie" viewBox="0 0 200 300" aria-label="Лейла, джинн золотой жилы">
+      <!-- хвост-дымка и лампа -->
+      <ellipse cx="100" cy="292" rx="34" ry="7" fill="#c98a0a"/>
+      <ellipse cx="100" cy="289" rx="26" ry="5" fill="#f5c542"/>
+      <path d="M78 198 Q100 210 122 198 Q132 240 106 262 Q92 274 100 290 Q78 276 84 256 Q68 236 78 198Z" fill="var(--outfit)" opacity=".8"/>
+      <!-- волосы сзади -->
+      <ellipse cx="100" cy="94" rx="41" ry="40" fill="#1d1230"/>
+      <path d="M104 58 Q156 34 152 92 Q150 130 138 152" stroke="#1d1230" stroke-width="15" fill="none" stroke-linecap="round"/>
+      <!-- руки -->
+      <path d="M75 158 Q50 182 66 206" stroke="#e8b08a" stroke-width="9" fill="none" stroke-linecap="round"/>
+      <path d="M125 158 Q150 182 134 206" stroke="#e8b08a" stroke-width="9" fill="none" stroke-linecap="round"/>
+      <circle cx="58" cy="184" r="6" fill="none" stroke="#f5c542" stroke-width="3"/>
+      <circle cx="142" cy="184" r="6" fill="none" stroke="#f5c542" stroke-width="3"/>
+      <!-- платье -->
+      <path d="M72 150 Q100 136 128 150 L123 202 Q100 213 77 202 Z" fill="var(--outfit)"/>
+      <path d="M77 196 Q100 207 123 196 L123 202 Q100 213 77 202Z" fill="#f5c542"/>
+      <!-- шея и голова -->
+      <rect x="92" y="126" width="16" height="20" rx="6" fill="#e8b08a"/>
+      <path d="M86 146 Q100 156 114 146" stroke="#f5c542" stroke-width="3" fill="none"/>
+      <circle cx="100" cy="100" r="34" fill="#f0bd98"/>
+      <g id="blush"><circle cx="80" cy="112" r="7" fill="#ff7a9a"/><circle cx="120" cy="112" r="7" fill="#ff7a9a"/></g>
+      <path d="M65 98 Q70 60 100 61 Q130 60 135 98 Q120 76 100 79 Q80 76 65 98Z" fill="#1d1230"/>
+      <circle cx="100" cy="68" r="5" fill="#f5c542"/><circle cx="100" cy="68" r="2.2" fill="#ff4d7e"/>
+      <circle cx="66" cy="110" r="4" fill="#f5c542"/><circle cx="134" cy="110" r="4" fill="#f5c542"/>
+      <path d="M80 92 Q87 88 94 92 M106 92 Q113 88 120 92" stroke="#1d1230" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <ellipse class="eye" cx="87" cy="102" rx="4" ry="5.5" fill="#2a1a2e"/>
+      <ellipse class="eye" cx="113" cy="102" rx="4" ry="5.5" fill="#2a1a2e"/>
+      <path id="mouth" d="M90 117 Q100 126 110 117" stroke="#a3324f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div id="cats"></div>
+  </div>
+
+  <div id="controls">
+    <button id="vein">⛏ Копать золотую жилу<small id="veinInfo"></small></button>
+    <form id="wishForm" autocomplete="off">
+      <input id="wishInput" placeholder="Напиши своё желание…" maxlength="120">
+      <button>Желаю!</button>
+    </form>
+    <div id="wishes"></div>
+    <button id="reset">начать заново</button>
+  </div>
+</div>
+
+<div id="end"><div>
+  <h1>✨ Свободна ✨</h1>
+  <p>Лампа рассыпается золотой пылью. Лейла смотрит на свои руки, потом на тебя — и смеётся.</p>
+  <p>«Три тысячи лет я исполняла желания, потому что была должна. А ты потратил своё на меня. Знаешь что? Я остаюсь. Теперь — потому что сама хочу».</p>
+  <button id="endBtn">Продолжить вместе</button>
+</div></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const KEY = 'golden-vein-save';
+const fresh = () => ({ gold: 0, love: 0, power: 1, cats: 0, scene: 0, outfit: 0, story: 0, free: false });
+let S = fresh();
+try { S = Object.assign(S, JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+
+const SCENES = [['', 'Обратно в шахту. Уютно, сыро, родное.'], ['night', 'Ночь. Звёзды я расставила вручную, цени.'],
+  ['sunset', 'Закат. Самый дорогой из моих — на него ушло три облака.'], ['snow', 'Снег! Мне не холодно, я из дыма. А тебе?'],
+  ['sea', 'Море. Купаться не предлагаю — я в лампу потом песок натащу.']];
+const OUTFITS = ['#7b3fe4', '#e0457b', '#1fa39a', '#d98a14', '#2f6fe0'];
+const MOUTHS = { smile: 'M90 117 Q100 126 110 117', smirk: 'M91 119 Q103 124 110 114', pout: 'M92 121 Q100 116 108 121', wow: 'M94 116 Q100 128 106 116 Q100 112 94 116' };
+const STORY = [
+  'Меня зовут Лейла. Я джинн этой жилы: пока в ней есть золото — есть и моя магия. Так что копай, не отвлекайся.',
+  'В лампу я попала по глупости: поспорила с одним визирем, что исполню любое желание. Он пожелал, чтобы я исполняла их вечно.',
+  'Последний хозяин лампы был шахтёр. Просил только ужин и чтобы спина не болела. Хороший был человек. Скучный, но хороший.',
+  'Знаешь, чего не может пожелать джинн? Ничего для себя. Три тысячи лет чужих желаний — и ни одного своего.',
+  'Если честно… Меня давно никто не спрашивал обо мне. Обычно сразу — «хочу дворец». Спасибо, что слушаешь.'
+];
+const COMPLIMENTS = [
+  'Ты копаешь так усердно, что жила сама начинает блестеть ярче.', 'У тебя хорошие желания. Поверь, я видела плохие.',
+  'С тобой в шахте стало светлее. И это не из-за фонаря.', 'Ты первый за триста лет, кто сказал «пожалуйста». Ну, почти сказал.',
+  'Мне нравится, как ты думаешь перед тем, как желать. Редкое качество.'
+];
+
+function say(text, mouth = 'smile', blush = false) {
+  $('bubble').innerHTML = '<b>Лейла:</b> ' + text;
+  $('mouth').setAttribute('d', MOUTHS[mouth]);
+  $('genie').classList.toggle('blushing', blush);
+}
+function fx(chars, n, mode) {
+  const st = $('stage');
+  for (let i = 0; i < n; i++) {
+    const p = document.createElement('span');
+    p.className = 'p ' + mode; p.textContent = pick(chars);
+    p.style.left = (mode === 'boom' ? 50 : Math.random() * 94) + '%';
+    if (mode === 'boom') { p.style.top = '45%'; p.style.setProperty('--dx', (Math.random() * 400 - 200) + 'px'); p.style.setProperty('--dy', (Math.random() * 300 - 180) + 'px'); }
+    if (mode === 'fall') p.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+    if (mode !== 'boom') p.style.animationDelay = (Math.random() * .6) + 's';
+    p.addEventListener('animationend', () => p.remove());
+    st.appendChild(p);
+  }
+}
+const love = n => { S.love = Math.max(0, Math.min(100, S.love + n)); };
+
+const WISHES = [
+  { id: 'firework', label: '🎆 Фейерверк', cost: 10, min: 0, re: /фейерверк|салют/, run() { fx(['✨', '🎆', '💥', '⭐'], 26, 'boom'); love(2); say(pick(['Бабах! Люблю эту работу.', 'Салют в шахте — техника безопасности плачет, а я нет.']), 'wow'); } },
+  { id: 'scene', label: '🌅 Сменить пейзаж', cost: 15, min: 0, re: /пейзаж|закат|ночь|звёзд|звезд|снег|зим|море|пляж|шахт/, run() { S.scene = (S.scene + 1) % SCENES.length; love(1); say(SCENES[S.scene][1]); } },
+  { id: 'pick', label: '⛏ Кирку получше', cost: () => 30 * S.power, min: 0, re: /кирк|инструмент/, run() { S.power++; fx(['⛏', '✨'], 8, 'boom'); say('Держи. Теперь ' + S.power + ' золота за удар. Жила, прости.', 'smirk'); } },
+  { id: 'cat', label: '🐈 Наколдуй кота', cost: () => 25 * (S.cats + 1), min: 0, re: /кот|кошк|котик|котён|котен/, run() { S.cats++; love(3); say('Кот наколдован. Он копает золото сам — ' + S.cats + ' в секунду. Не спрашивай как.', 'wow'); } },
+  { id: 'compliment', label: '💬 Скажи приятное', cost: 5, min: 0, re: /приятн|комплимент|похвали/, run() { love(1); say(pick(COMPLIMENTS), 'smile', S.love > 40); } },
+  { id: 'flowers', label: '💐 Цветы — для тебя', cost: 20, min: 0, re: /цвет|букет|подар/, run() { fx(['🌸', '🌹', '🌷', '💐'], 18, 'fall'); love(5); say(pick(['Желание… для меня? Так вообще можно было?', 'Ты тратишь магию на цветы для джинна. Странный. Мне нравится.']), 'wow', true); } },
+  { id: 'story', label: '📖 Расскажи о себе', cost: 10, min: 15, re: /расскажи|о себе|истори|кто ты/, run() { say(STORY[Math.min(S.story, STORY.length - 1)], S.story >= 3 ? 'pout' : 'smile', S.story >= 4); if (S.story < STORY.length) { S.story++; love(4); } } },
+  { id: 'outfit', label: '👗 Смени наряд', cost: 30, min: 20, re: /наряд|плать|переоден|одежд/, run() { S.outfit = (S.outfit + 1) % OUTFITS.length; love(2); fx(['✨'], 12, 'boom'); say(pick(['Как тебе? Только честно. Ладно, можно не честно.', 'Этот цвет я берегла для особого случая. Ну, или для вторника.']), 'smirk'); } },
+  { id: 'dance', label: '💃 Станцуй для меня', cost: 40, min: 30, re: /танц|станцуй/, run() { const g = $('genie'); g.classList.remove('spin'); void g.offsetWidth; g.classList.add('spin'); setTimeout(() => g.classList.remove('spin'), 1700); fx(['✨', '🎵', '🎶'], 20, 'rise'); love(5); say('Три тысячи лет практики. Аплодисменты принимаются золотом.', 'smile', true); } },
+  { id: 'date', label: '🕯 Ужин под звёздами', cost: 120, min: 50, re: /ужин|свидани|романтик|вино/, run() { S.scene = 1; fx(['🕯', '⭐', '🍷', '🌙'], 22, 'fall'); love(12); say('Стол, свечи, небо. Я обычно накрываю такое для других… Сегодня — первый раз для себя тоже.', 'smile', true); } },
+  { id: 'kiss', label: '💋 Поцелуй', cost: 0, min: 80, re: /поцел|целуй|обними|обним/, run() { fx(['❤', '💕', '💖'], 24, 'rise'); love(10); say('…Это желание я исполню не как джинн. *целует тебя* Всё. Никому ни слова — у меня репутация.', 'smile', true); } },
+  { id: 'free', label: '🕊 Освободить Лейлу', cost: 300, min: 100, re: /освобо|свобод|отпус/, run() { S.free = true; fx(['✨', '🕊', '💛'], 40, 'boom'); say('Ты… серьёзно?', 'wow', true); setTimeout(() => $('end').classList.add('on'), 900); } }
+];
+const costOf = w => typeof w.cost === 'function' ? w.cost() : w.cost;
+
+function grant(w) {
+  if (S.love < w.min) return say(pick(['Не так быстро. Мы пока недостаточно знакомы для такого желания.', 'Ха. Это желание откроется, когда я буду тебе больше доверять.']), 'smirk');
+  const c = costOf(w);
+  if (S.gold < c) return say('Моя магия работает на золоте жилы. Нужно ещё ' + (c - S.gold) + ' 💰 — берись за кирку.', 'pout');
+  S.gold -= c; w.run(); save(); render();
+}
+
+function freeWish(raw) {
+  const t = raw.toLowerCase().trim();
+  if (!t) return;
+  if (/секс|разден|голая|голую|обнаж|грудь|трах|интим|постел|18\+|эроти/.test(t))
+    return say('Полегче, искатель. Я джинн с характером, а не с таким прейскурантом. Начни с цветов и ужина — а там посмотрим, до поцелуя дойдёт или нет.', 'smirk', true);
+  if (/дура|тупая|заткни|урод|идиотк|сука|шлюх|глупая/.test(t)) { love(-5); save(); render(); return say('Грубить джинну — смелое желание. Исполнять не буду. И симпатию я тебе убавила.', 'pout'); }
+  const w = WISHES.find(w => w.re.test(t));
+  if (w) return grant(w);
+  if (/золот|деньг|богат|монет/.test(t)) { const g = 5 + S.power * 3; S.gold += g; fx(['🪙'], 10, 'fall'); save(); render(); return say('Золото из золота не наколдуешь — закон жилы. Но вот тебе ' + g + ' монет из моих личных запасов.', 'smirk'); }
+  if (/привет|здравств|хай/.test(t)) return say('Привет-привет. Желать будем или просто поболтаем?', 'smile');
+  if (/люблю|нравишься|красив|милая/.test(t)) { love(2); save(); render(); return say(S.love > 60 ? 'Знаю. И… ты мне тоже. Только не зазнавайся.' : 'Все так говорят, когда хотят дворец. Но спасибо.', 'smile', true); }
+  if (/зовут|имя/.test(t)) return say('Лейла. Джинн золотой жилы. Очень приятно, копатель.', 'smile');
+  if (/сколько.*лет|возраст/.test(t)) return say('Мне было двадцать семь, когда я попала в лампу. Три тысячи лет внутри не считаются — там время стоит.', 'smirk');
+  if (S.gold < 5) return say('На импровизацию нужно хотя бы 5 💰. Жила ждёт.', 'pout');
+  S.gold -= 5; love(1); fx(['✨', '💫'], 14, 'boom'); save(); render();
+  say(pick(['«' + esc(raw) + '»? Хм. Исполнено — в миниатюре и на мой вкус. Посмотри под ногами.', 'Такого у меня ещё не просили. Сделала как поняла. Претензии не принимаются.', 'Исполнено! Ну… примерно. Магия — наука неточная.']), 'wow');
+}
+const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+function render() {
+  $('gold').textContent = Math.floor(S.gold);
+  $('loveFill').style.width = S.love + '%';
+  $('loveLabel').textContent = '❤ Симпатия ' + S.love + '/100';
+  $('veinInfo').textContent = '+' + S.power + ' за удар' + (S.cats ? ' · коты: +' + S.cats + '/сек' : '');
+  $('stage').className = SCENES[S.scene][0];
+  document.documentElement.style.setProperty('--outfit', OUTFITS[S.outfit]);
+  $('cats').textContent = '🐈'.repeat(Math.min(S.cats, 8));
+  $('wishes').innerHTML = WISHES.map((w, i) => {
+    const locked = S.love < w.min, c = costOf(w);
+    const sub = locked ? '🔒 нужна симпатия ' + w.min : (c ? c + ' 💰' : 'бесплатно');
+    return '<button class="wish' + (locked ? ' locked' : S.gold < c ? ' poor' : '') + '" data-i="' + i + '">' + w.label + '<span>' + sub + '</span></button>';
+  }).join('');
+}
+
+$('vein').addEventListener('click', e => {
+  S.gold += S.power;
+  const pop = document.createElement('span');
+  pop.className = 'pop'; pop.textContent = '+' + S.power;
+  pop.style.left = (20 + Math.random() * 60) + '%';
+  pop.addEventListener('animationend', () => pop.remove());
+  $('vein').appendChild(pop);
+  render();
+});
+$('wishes').addEventListener('click', e => { const b = e.target.closest('.wish'); if (b) grant(WISHES[b.dataset.i]); });
+$('wishForm').addEventListener('submit', e => { e.preventDefault(); freeWish($('wishInput').value); $('wishInput').value = ''; });
+$('endBtn').addEventListener('click', () => { $('end').classList.remove('on'); say('Ну что, копатель. Желай — теперь я исполняю, потому что хочу.', 'smile', true); });
+$('reset').addEventListener('click', () => { if (confirm('Начать игру заново?')) { S = fresh(); save(); render(); intro(); } });
+setInterval(() => { if (S.cats) { S.gold += S.cats; render(); } save(); }, 1000);
+
+function intro() {
+  say(S.free ? 'С возвращением. Я никуда не делась — сама так решила.'
+    : S.gold || S.love ? 'О, ты вернулся. Жила на месте, я тоже. Чего желаешь?'
+    : 'Ты разбудил джинна золотой жилы. Я Лейла — исполняю желания, но магия стоит золота. Копай, выбирай желание ниже или напиши своё.', 'smirk');
+}
+render(); intro();
+</script>
+</body>
+</html>

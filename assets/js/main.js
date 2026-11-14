@@ -163,7 +163,7 @@
     var head = function (c, i) {
       var top = el("div", "top"), t = el("div");
       t.appendChild(el("div", "name", c.name || "Ученик №" + (i + 1)));
-      t.appendChild(el("div", "role", c.role || "Здесь будет описание"));
+      if (c.role || !c.name) t.appendChild(el("div", "role", c.role || "Здесь будет описание"));
       top.appendChild(avatar(c, i)); top.appendChild(t);
       return top;
     };
@@ -174,7 +174,9 @@
       var inner = el("div", "in");
       inner.appendChild(head(c, i));
       inner.appendChild(delta(c));
-      inner.appendChild(el("blockquote", "", c.quote ? "«" + c.quote + "»" : "Здесь появится история ученика — пришлите текст кейса."));
+      if (c.summary) inner.appendChild(el("p", "sum", c.summary));
+      if (c.quote) inner.appendChild(el("blockquote", "", "«" + c.quote + "»"));
+      if (!c.summary && !c.quote) inner.appendChild(el("blockquote", "", "Здесь появится история ученика — пришлите текст кейса."));
       if (full) {
         card.type = "button";
         inner.appendChild(el("span", "more", "Читать кейс"));
@@ -182,6 +184,7 @@
           body.textContent = "";
           body.appendChild(head(c, i));
           body.appendChild(delta(c));
+          if (c.summary) body.appendChild(el("p", "sum", c.summary));
           if (c.quote) body.appendChild(el("blockquote", "", "«" + c.quote + "»"));
           if (c.story) body.appendChild(el("div", "story", c.story));
           (c.shots || []).forEach(function (s) {

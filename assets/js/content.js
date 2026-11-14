@@ -4,8 +4,12 @@
   Картинки кладутся в assets/img/proofs/ и assets/img/cases/.
 */
 window.TGV = {
-  // Куда ведут кнопки «Связаться» (Telegram, WhatsApp, почта и т.д.)
-  contact: { label: "Связаться", url: "https://t.me/A888MP_97" },
+  // Контакты для связи. Если контакт один — кнопки «Связаться» ведут сразу на него,
+  // если несколько — по нажатию открывается окно с выбором.
+  contacts: [
+    { label: "@A888MP_97", url: "https://t.me/A888MP_97" },
+    { label: "@god_damov", url: "https://t.me/god_damov" }
+  ],
 
   // Пруфы. Пример: { src: "assets/img/proofs/1.jpg", title: "Заголовок", note: "Короткая подпись" }
   // Если src пустой — на сайте показывается аккуратная заглушка.

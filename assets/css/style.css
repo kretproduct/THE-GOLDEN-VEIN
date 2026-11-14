@@ -233,6 +233,12 @@ dialog[open] { animation: pop .35s cubic-bezier(.2, .7, .2, 1); }
 #case-modal { width: min(820px, 94vw); max-height: 88vh; margin: auto; }
 #case-modal .sheet { clip-path: var(--chip); background: var(--grad); padding: 1px; }
 #case-modal .body { clip-path: var(--chip); background: linear-gradient(160deg, #18130c, #0c0906); padding: clamp(26px, 5vw, 52px); max-height: 88vh; overflow-y: auto; display: grid; gap: 22px; }
+#contact-modal { width: min(440px, 92vw); margin: auto; }
+#contact-modal .sheet { clip-path: var(--chip); background: var(--grad); padding: 1px; }
+#contact-modal .body { clip-path: var(--chip); background: linear-gradient(160deg, #18130c, #0c0906); padding: clamp(28px, 6vw, 44px); display: grid; gap: 14px; }
+#contact-modal .ttl { font-family: var(--serif); font-size: 34px; line-height: 1.1; margin-bottom: 10px; }
+#contact-modal .btn, .final .cta .btn { text-transform: none; letter-spacing: .04em; font-size: 16px; }
+.btn svg[fill="currentColor"] { width: 20px; height: 20px; }
 #case-modal .story { color: #d6cbb2; white-space: pre-line; }
 #case-modal .shot { width: 100%; border: 1px solid var(--line); }
 

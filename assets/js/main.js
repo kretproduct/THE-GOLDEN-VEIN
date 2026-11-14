@@ -19,10 +19,41 @@
   };
 
   /* ---------- Контакты и год ---------- */
-  $$("[data-contact]").forEach(function (a) {
-    if (D.contact && D.contact.url) a.href = D.contact.url;
-    if (D.contact && D.contact.url && D.contact.url !== "#") { a.target = "_blank"; a.rel = "noopener"; }
-  });
+  var contacts = (D.contacts || (D.contact ? [D.contact] : [])).filter(function (c) { return c && c.url && c.url !== "#"; });
+  var TG = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19c-.2 1-.9 1.3-1.7.8l-4.7-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.8L18 6.4c.4-.3-.1-.5-.6-.2L6.700 13l-4.600-1.400c-1-.3-1-1 .2-1.500l18-6.900c.8-.3 1.600.2 1.600 1.100Z"/></svg>';
+  function contactLink(c, cls) {
+    var a = el("a", cls);
+    a.href = c.url; a.target = "_blank"; a.rel = "noopener";
+    a.innerHTML = TG; a.appendChild(el("span", "", c.label || c.url));
+    return a;
+  }
+  if (contacts.length === 1) {
+    $$("[data-contact]").forEach(function (a) { a.href = contacts[0].url; a.target = "_blank"; a.rel = "noopener"; });
+  } else if (contacts.length > 1) {
+    var cm = el("dialog"); cm.id = "contact-modal"; cm.setAttribute("aria-label", "Связаться с нами");
+    var xb = el("button", "x", "×"); xb.type = "button"; xb.setAttribute("aria-label", "Закрыть");
+    var sheet = el("div", "sheet"), cb = el("div", "body");
+    cb.appendChild(el("span", "eyebrow", "Telegram"));
+    cb.appendChild(el("div", "ttl", "Кому написать"));
+    contacts.forEach(function (c) { cb.appendChild(contactLink(c, "btn")); });
+    sheet.appendChild(cb); cm.appendChild(xb); cm.appendChild(sheet);
+    document.body.appendChild(cm);
+    $$("[data-contact]").forEach(function (a) {
+      var box = a.parentNode;
+      if (box.classList.contains("cta")) {
+        // большой блок внизу страницы: показываем все контакты сразу
+        contacts.forEach(function (c) { box.insertBefore(contactLink(c, "btn"), a); });
+        box.removeChild(a);
+        return;
+      }
+      a.href = contacts[0].url; a.setAttribute("role", "button"); a.setAttribute("aria-haspopup", "dialog");
+      a.addEventListener("click", function (e) {
+        if (!cm.showModal) return;
+        e.preventDefault();
+        cm.showModal();
+      });
+    });
+  }
   $$("[data-year]").forEach(function (n) { n.textContent = new Date().getFullYear(); });
 
   /* ---------- Шапка и меню ---------- */

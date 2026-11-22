@@ -304,7 +304,7 @@ def pulse_track(d, bpm=76, amp=0.3, note=38):
 
 def drone(n, d, amp=0.12, bright=400):
     t = tvec(d)
-    x = np.sin(2 * np.pi * midi(n) * t) + 0.5 * np.sin(2 * np.pi * midi(n + 1) * t * 1.001) + 0.3 * lp(noise(d), bright)
+    x = np.sin(2 * np.pi * midi(n) * t) + 0.3 * np.sin(2 * np.pi * midi(n + 7) * t * 1.001)
     x *= 0.8 + 0.2 * np.sin(2 * np.pi * 0.07 * t)
     return x * amp * env_adsr(len(t), 3.0, 3.0)
 
@@ -341,7 +341,7 @@ def build():
     # ---------------- music beds (per scene)
     def m(s, t0, x, g=1.0):
         add(mus, A(s, t0), x, g)
-    m(1, 0, drone(38, 26, 0.10, 250))
+    m(1, 0, drone(38, 26, 0.035, 250))
     m(2, 0.2, cello(36, 12, 0.35))
     m(2, 2.0, pad(Dm, 10, 0.10, 900, a=4))
     m(3, 0, progression([Dm, Bb, F, C], 34, 0.09, 1100))
@@ -379,12 +379,12 @@ def build():
     hb = s_heartbeat()
     k = 0.0
     while k < 26:
-        x(1, k, hb, 0.6)
+        x(1, k, hb, 0.3)
         k += 1.05
     for k in np.arange(1.0, 26, 2.3):
-        x(1, k, lp(s_breath(0.6, 900), 900), 0.6)
+        x(1, k, lp(s_breath(0.6, 700), 700), 0.25)
     # S2 wind rising
-    x(2, 0, s_wind(12, 0.3, 700) * np.linspace(0.2, 1, int(12 * SR)), 0.35)
+    x(2, 0, s_wind(12, 0.3, 600) * np.linspace(0.05, 1, int(12 * SR)), 0.2)
     # S3/4 wind + steps + map flap
     x(3, 0, s_wind(34, 0.35, 900), 0.3)
     for k in np.arange(0.2, 12, 0.6):

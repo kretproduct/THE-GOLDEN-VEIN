@@ -126,14 +126,17 @@ def s03(ctx, t, T, d):
         sun(ctx, 1600, 260, 50, '#FFF1C9', 0.3)
         mountains(ctx, 21, 620, 330, '#8C9DB9', '#EEF3F8', offset=t * 6)
         mountains(ctx, 22, 760, 260, '#6E819F', '#DCE6EF', offset=t * 16)
-        forest(ctx, 23, 860, 18, 70, 120, '#2D4B45', '#26403B', snow=0.6, offset=(t * 60) % 400, x0=-100, x1=W + 500)
-        snow_ground(ctx, 870, offset=(t * 120) % 600)
-        # footprints trail
+        forest(ctx, 23, 860, 30, 70, 120, '#2D4B45', '#26403B', snow=0.6, offset=t * 60, x0=-100, x1=W + 900)
+        snow_ground(ctx, 870, offset=t * 120, x1=W + 2000)
+        # footprints trail: left behind Range, scrolling away with the ground
         col(ctx, P['snow_sh'])
-        for k in range(12):
-            x = 760 - ((t * 240 + k * 70) % 900)
-            ellipse(ctx, x, 1010 + (k % 2) * 16, 22, 8)
-            ctx.fill()
+        step = 0.6
+        k0 = int(t / step)
+        for k in range(k0, max(-1, k0 - 14), -1):
+            x = 790 - (t - k * step) * 120 * 2
+            if x < 730:
+                ellipse(ctx, x, 1010 + (k % 2) * 16, 22, 8)
+                ctx.fill()
         p = walk_pose(t * 5.2, look=0.55, frost=0.6, breath=t * 0.7, brows='angry')
         p['blink'] = blink(T)
         draw_range(ctx, 800, 1010, 1.25, p, t)

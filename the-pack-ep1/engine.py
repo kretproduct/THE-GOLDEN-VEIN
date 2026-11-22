@@ -725,16 +725,16 @@ def forest(ctx, seed, y, n, hmin, hmax, c, c2=None, snow=0.0, x0=-100, x1=W + 10
         pine(ctx, x - offset, y + dy, h, c, c2, snow, sway)
 
 
-def snow_ground(ctx, y, c=None, seed=5, amp=18, offset=0.0):
+def snow_ground(ctx, y, c=None, seed=5, amp=18, offset=0.0, x1=W + 400):
     c = c or P['snow']
-    pts = ridge_points(seed, -400, W + 400, y, amp, 0.003, step=30)
+    pts = ridge_points(seed, -400, x1, y, amp, 0.003, step=30)
     ctx.save()
     ctx.translate(-offset, 0)
     col(ctx, c)
     ctx.move_to(-400, H * 2)
     for px, py in pts:
         ctx.line_to(px, py)
-    ctx.line_to(W + 400, H * 2)
+    ctx.line_to(pts[-1][0], H * 2)
     ctx.close_path()
     ctx.fill()
     ctx.restore()
